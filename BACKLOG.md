@@ -28,68 +28,59 @@ The 5 new sections currently in the "Polish & enhancement" queue are the direct 
 
 - [ ] `src/app/page.tsx` (homepage) still has dark-mode classes and references `/[place_id]` — should be cleaned up or rewritten to match the trade-trust aesthetic. Cosmetic only; the live route is `/[slug]`.
 
-## Resume here (last paused 2026-05-18)
+## Resume here (last paused 2026-05-19, polish wave 1 + gallery wave landed)
 
-The plumber skeleton template is live and committed (commit `42b9ebc`, pushed to `github.com/nickychase/scraper-skeletons`). Dev server runs at `localhost:3000/ChIJ_HOT_001` against the fixture.
+Two waves shipped on `main`:
+- **Polish wave 1**: modularity refactor (`VerticalData.sections`), About section, Hours block in Contact, Service Area section, real review snippets in Trust, Lead schema extended with optional polish fields.
+- **Gallery wave**: 21st.dev `interactive-bento-gallery` (anurag-mishra22) installed via shadcn registry, forked in place at `src/components/blocks/interactive-bento-gallery.tsx` (trade-trust palette, drag-rearrange stripped from grid tiles, built-in header removed). `<Gallery />` section wraps it. `framer-motion` added. 6 Unsplash placeholder photos wired into `plumberVertical.gallery`.
 
-**Immediate pending decision**: pick build order for the 5 new sections + modularity refactor under "Polish & enhancement" below. My recommended sequence:
+Fixture lead populated; renders fully-loaded at `localhost:3000/ChIJ_HOT_001`. Section order: hero → trust → services → gallery → about → serviceArea → contact.
 
-1. **Modularity refactor first** — add `sections: SectionKey[]` to `VerticalData`, make optional fields optional. 1-file change, unblocks the rest.
-2. **About section + Hours block** — pure vertical-data adds, no photos/carousel needed.
-3. **Service Area section** — first conditionally-rendered section; exercises the refactor.
-4. **Gallery / carousel** — needs photo sourcing + carousel component choice (embla vs a 21st.dev pick).
-5. **Real review snippets** — gated on schema coordination with scraper-dashboard.
+**Next wave (queued):**
 
-Also unresolved: which 21st.dev components to install (user to paste 2–3 URLs), and what type of carousel (project gallery / services-detail / testimonials).
+1. **Visual review pass** — user opens the page in browser, lists every specific thing to change (palette, type weight/scale, spacing, copy, section order, photo curation).
+2. **Working contact form** — Server Action + Resend. v1 hardcoded `to:` address; later per-lead via Sheet column. Adds `RESEND_API_KEY` env var and `resend` dep.
+3. **scraper-dashboard mirror** — add the optional polish columns to scraper-dashboard's `lead.ts` + Sheet so populated leads flow through. List below.
+4. **Curate the 6 gallery photos** — current set is placeholder; user pastes 6 final Unsplash URLs whenever, I swap.
+
+Deferred indefinitely: `VerticalKey` widening (waits on vertical #2), homepage cleanup bug (cosmetic, `/[slug]` is the real route), 21st.dev hover-slider for Services (dropped 2026-05-19 — Services keeps current 6-icon grid).
 
 ## In Progress
 
-- [ ] **Polish + enhance the plumber skeleton** — make it look noticeably better than v1 and start adding substance, per the 2026-05-18 direction shift (see Decisions Log).
+_(nothing right now — pick from "Next wave" above.)_
 
-## Polish & enhancement (current focus)
+## Polish & enhancement
 
-### Existing items
-- [ ] **Visual review pass** — user actually opens `localhost:3000/ChIJ_HOT_001` and lists every specific thing to change (palette, type weight/scale, spacing, copy, section order, missing elements). Has not happened yet.
-- [ ] **21st.dev components** — user picks 2–3 specific component URLs to install + adapt (hero variants, service tiles, animated CTAs, etc.). Adding registry support to `components.json` may be needed.
-- [ ] **Hero photo or upgrade** — current Hero is CSS-only (navy gradient + dot pattern + warm glow). May get replaced by a 21st.dev hero or a real photo from the gallery set.
+### Active queue
+- [ ] **Visual review pass** — user opens `localhost:3000/ChIJ_HOT_001` (fully-loaded with all polish + gallery) and lists every specific thing to change (palette, type weight/scale, spacing, copy, section order, photo curation).
+- [ ] **Curate gallery photos** — replace the 6 placeholder Unsplash URLs in `plumberVertical.gallery.items` with hand-picked final shots. Showpiece slot (id=1) is the largest tile — give it the strongest single photo.
+- [ ] **Working contact form** — replace dead form in `Contact.tsx` with a Server Action calling Resend. Adds `RESEND_API_KEY` env var, one dep, no API route. v1: hardcoded `to:` address; later: pull per-lead `contact_email` from Sheet.
+- [ ] **Hero upgrade** — current Hero is CSS-only (navy gradient + dot pattern + warm glow). May get replaced by a 21st.dev hero or a real photo from the gallery set.
+- [ ] **Vertical asset convention SOP** — formalize `public/verticals/<key>/gallery/*` and `public/verticals/<key>/hero.jpg` paths in `docs/verticals.md`. (Note: gallery v1 uses external Unsplash URLs, not self-hosted — SOP should cover both modes.)
+- [ ] **VerticalKey + dispatch generalization** — `VerticalKey` is currently `'plumber'` only. When vertical #2 is added, widen the union and add a real dispatch from `lead.query` keywords or a new `lead.vertical` column. (`TODO` in `lib/verticals/index.ts`.)
 
-### New sections from small-business-owner discovery (2026-05-18)
+### Schema extensions — mirror in scraper-dashboard
 
-What a trade owner wants on their preview, mapped to scope. All five additions follow the universal-`<SkeletonSite>`-plus-`VerticalData`-tokens pattern so they generalize to electricians, HVAC, salons, etc.
+These columns are optional in this repo's `leadSchema`. They render no-op until scraper-dashboard mirrors them and the Sheet has the columns.
 
-- [ ] **About / Our Story section** — short paragraph + 3 short claims ("Since 2003", "Family-owned", "Master Plumber #M-12345"). New `<About />` section. Vertical-data: `aboutCopy: (lead) => string`, `aboutClaims: string[]` (generic defaults). Lead-data: real years/owner/license eventually come from schema extensions (see below). Multi-vertical: every business type wants this — copy tone varies (trades vs salon vs restaurant), structure stays the same.
+- [ ] Add to scraper-dashboard's `lead.ts` (identical optional shape): `place_review_snippet_1`, `place_review_snippet_2`, `place_review_author_1`, `place_review_author_2`, `years_in_business` (number), `license_number`, `owner_name`, `service_areas` (CSV), `business_hours`.
+- [ ] Add the same columns to the shared Google Sheet.
+- [ ] Populate values for current hot leads (manual for now; n8n later).
 
-- [ ] **Photo gallery / carousel** — supersedes the earlier "Image carousel" / "Source plumber photos" items in this backlog. New `<Gallery />` section. Vertical-data: `gallery: { src: string; alt: string }[]` pointing at `public/verticals/<key>/gallery/*.jpg`. Plumber set: 4–6 royalty-free Unsplash photos (truck, uniformed worker, jobsite, clean install). Multi-vertical: same shape, different photo folder per vertical. Carousel component decision still open — embla (free, easy) vs a 21st.dev marketing carousel.
+### Done 2026-05-19 (gallery wave)
 
-- [ ] **Service area section** — list of cities served + simple map placeholder. New `<ServiceArea />` section. Vertical-data: nothing (service areas are inherently per-business). Lead-data v1: derive from `lead.city` + a vertical-default radius list ("Austin + surrounding areas"). Lead-data v2: schema column `service_areas: string[]` once added. Multi-vertical: **optional per vertical** — trades/HVAC/landscaping want this; salons/restaurants don't. First section that's conditionally rendered → drives the modularity refactor below.
+- [x] **Photo gallery / carousel** — 21st.dev `interactive-bento-gallery` (anurag-mishra22) installed via shadcn registry, forked in place. Trade-trust palette, drag-rearrange stripped from grid tiles (still kept on the modal dock), `max-w-4xl` widened to `max-w-6xl`, built-in title/description removed in favor of our own section header. `framer-motion` added as dep. `<Gallery />` wraps it; `VerticalData.gallery?: GalleryData` optional per vertical. 6 placeholder Unsplash photos wired with bento spans.
+- [x] **21st.dev hover-slider — dropped from queue** — initially considered for Services section upgrade, but not committed to in this polish phase. Services keeps the current 6-icon-tile grid.
 
-- [ ] **Hours of operation block** — integrated into the Contact section rather than its own full section, to avoid stretching the page. Vertical-data: `hours: { schedule: { day: string; hours: string }[]; emergencyNote?: string }`. Multi-vertical: every business has hours; trades have an `emergencyNote` ("24/7 for burst pipes and gas leaks"), salons typically don't.
+### Done 2026-05-18 (polish wave 1)
 
-- [ ] **Real review snippets** — extend `<Trust />` to show 1–2 review quotes when present. Schema extension required, see below. Vertical-data: nothing. Lead-data: from new schema columns. Renders nothing if columns are empty (graceful degradation). Multi-vertical: universal — every vertical benefits.
-
-### Modularity refactor (so the template scales to N business types)
-
-- [ ] **Section composition via `VerticalData`** — add a `sections: SectionKey[]` field to `VerticalData` declaring which sections render and in what order. Replaces the hardcoded composition in `<SkeletonSite>`. Lets future verticals omit sections they don't need (salon = no service area) and add sections others don't (restaurant = menu/hours-prominent).
-
-- [ ] **Optional `VerticalData` fields** — make fields that don't apply universally optional in the type (e.g., `emergencyNote?`, `serviceAreaCities?`). Section components skip rendering when their data is absent.
-
-- [ ] **Vertical asset convention** — formalize `public/verticals/<key>/gallery/*` and `public/verticals/<key>/hero.jpg` paths in the SOP. SOP doc (`docs/verticals.md`) is the right place to land this.
-
-- [ ] **VerticalKey + dispatch generalization** — `VerticalKey` is currently `'plumber'` only. When vertical #2 is added, widen to `'plumber' | 'electrician' | ...` and add a real dispatch from `lead.query` keywords or a new `lead.vertical` column. (Already noted with a `TODO` in `lib/verticals/index.ts`.)
-
-### Schema extensions needed (coordinate with scraper-dashboard)
-
-These require duplicated changes in both repos' `lead.ts` plus a Sheets column add.
-
-- [ ] `place_review_snippet_1`, `place_review_snippet_2` — string, optional. Quote text from Google reviews.
-- [ ] `place_review_author_1`, `place_review_author_2` — string, optional. Author first name + last initial.
-- [ ] `years_in_business` — number, optional. Powers About claims ("Serving since {year}").
-- [ ] `license_number` — string, optional. Powers About claims, varies per vertical (Master Plumber #, Master Electrician #, etc.).
-- [ ] `owner_name` — string, optional. Powers About story.
-- [ ] `service_areas` — string (CSV or JSON), optional. List of cities/ZIPs served. v1 can fall back to `city` + vertical default.
-- [ ] `business_hours` — string (structured), optional. v1 can use vertical defaults.
-
-Note: every column is **optional**. Skeleton renders fine without them (graceful fallback to vertical defaults or generic copy). This means we can ship the sections and add the columns incrementally.
+- [x] **Modularity refactor** — `VerticalData.sections: SectionKey[]`, optional `serviceArea`, `SkeletonSite` dispatches over the array.
+- [x] **About / Our Story section** — `<About />` with `vertical.about = { eyebrow, heading, copy, claims }`; weaves `owner_name` + `years_in_business` + `license_number` when present.
+- [x] **Real review snippets** — `<Trust />` renders up to 2 quote cards from `place_review_snippet_1/2`; no-op when absent.
+- [x] **Service Area section** — `<ServiceArea />`, conditional on `vertical.serviceArea`. Lead `service_areas` CSV overrides vertical defaults.
+- [x] **Hours of operation block** — folded into `<Contact />` as a third info card; `vertical.hours = { schedule, emergencyNote? }`.
+- [x] **Lead schema extensions** — all optional polish fields added in this repo (mirror still owed in scraper-dashboard, see above).
+- [x] **Fixture populated** — `SAMPLE_LEADS[0]` carries realistic Austin plumber data for every new field.
 
 ## After polish lands
 

@@ -30,5 +30,18 @@ export const SAMPLE_LEADS: Lead[] = [
     status: "new",
     last_status_at: undefined,
     notes: undefined,
+
+    owner_name: "Raj Patel",
+    years_in_business: 22,
+    license_number: "#M-39214",
+    service_areas:
+      "Austin, Round Rock, Cedar Park, Pflugerville, Leander, Georgetown, Buda, Kyle",
+    business_hours: undefined,
+    place_review_snippet_1:
+      "Raj came out within an hour on a Sunday when our water heater failed. Clean work, fair price, and he walked me through everything before he started.",
+    place_review_author_1: "Sarah M.",
+    place_review_snippet_2:
+      "Replaced the galvanized pipes in our 1940s bungalow with PEX. The crew was respectful of the house, cleaned up every day, and finished a day early.",
+    place_review_author_2: "Daniel R.",
   },
 ];

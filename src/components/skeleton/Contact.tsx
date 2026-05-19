@@ -1,11 +1,20 @@
-import { MapPin, Phone } from "lucide-react";
+import { Clock, MapPin, Phone, Siren } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Lead } from "@/lib/types/lead";
+import type { VerticalData } from "@/lib/types/vertical";
 
-export function Contact({ lead }: { lead: Lead }) {
+export function Contact({
+  lead,
+  vertical,
+}: {
+  lead: Lead;
+  vertical: VerticalData;
+}) {
   const telHref = lead.phone
     ? `tel:${lead.phone.replace(/[^\d+]/g, "")}`
     : undefined;
+
+  const { schedule, emergencyNote } = vertical.hours;
 
   return (
     <section className="bg-plumber-cream">
@@ -54,6 +63,38 @@ export function Contact({ lead }: { lead: Lead }) {
                   <span className="mt-0.5 block text-base font-medium">
                     {lead.address}
                   </span>
+                </span>
+              </div>
+
+              <div className="flex items-start gap-4 text-plumber-navy">
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-plumber-navy text-plumber-yellow">
+                  <Clock className="size-5" />
+                </span>
+                <span className="grow">
+                  <span className="block text-sm font-medium uppercase tracking-wider text-plumber-navy/50">
+                    Hours
+                  </span>
+                  <dl className="mt-1.5 space-y-1 text-base">
+                    {schedule.map(({ day, hours }) => (
+                      <div
+                        key={day}
+                        className="flex items-baseline justify-between gap-6"
+                      >
+                        <dt className="font-medium text-plumber-navy/80">
+                          {day}
+                        </dt>
+                        <dd className="font-semibold text-plumber-navy">
+                          {hours}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                  {emergencyNote && (
+                    <span className="mt-3 inline-flex items-center gap-2 rounded-md bg-plumber-yellow/20 px-3 py-1.5 text-sm font-semibold text-plumber-navy">
+                      <Siren className="size-4 text-plumber-navy" />
+                      {emergencyNote}
+                    </span>
+                  )}
                 </span>
               </div>
             </div>
