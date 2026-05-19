@@ -9,10 +9,13 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
-  --color-plumber-navy: var(--plumber-navy);
-  --color-plumber-navy-deep: var(--plumber-navy-deep);
-  --color-plumber-cream: var(--plumber-cream);
-  --color-plumber-yellow: var(--plumber-yellow);
+  --color-brand-bg: var(--brand-bg);
+  --color-brand-fg: var(--brand-fg);
+  --color-brand-card: var(--brand-card);
+  --color-brand-hero: var(--brand-hero);
+  --color-brand-hero-deep: var(--brand-hero-deep);
+  --color-brand-hero-fg: var(--brand-hero-fg);
+  --color-brand-accent: var(--brand-accent);
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -77,10 +80,24 @@
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --radius: 0.625rem;
-  --plumber-navy: oklch(0.27 0.05 250);
-  --plumber-navy-deep: oklch(0.2 0.05 250);
-  --plumber-cream: oklch(0.99 0.005 80);
-  --plumber-yellow: oklch(0.82 0.16 85);
+  /* Brand tokens default to plumber values for safety if a vertical class is
+     missing. Real values cascade in via `.vertical-<key>` on the SkeletonSite
+     root (see below).
+     Roles:
+       --brand-bg       section background
+       --brand-fg       body text on section background
+       --brand-card     elevated card surface
+       --brand-hero     hero/footer dark surface (dark in both light + dark themes)
+       --brand-hero-deep darker hover/footer variant
+       --brand-hero-fg  text on the dark hero/footer
+       --brand-accent   highlight color (yellow / electric purple / etc.) */
+  --brand-bg: oklch(0.99 0.005 80);
+  --brand-fg: oklch(0.27 0.05 250);
+  --brand-card: oklch(1 0 0);
+  --brand-hero: oklch(0.27 0.05 250);
+  --brand-hero-deep: oklch(0.2 0.05 250);
+  --brand-hero-fg: oklch(0.99 0.005 80);
+  --brand-accent: oklch(0.82 0.16 85);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -123,6 +140,28 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+}
+
+/* Per-vertical brand palette overrides. SkeletonSite root applies
+   `vertical-<key>`; all descendants inherit via CSS variable cascade. */
+.vertical-plumber {
+  --brand-bg: oklch(0.99 0.005 80);         /* warm cream */
+  --brand-fg: oklch(0.27 0.05 250);         /* navy text */
+  --brand-card: oklch(1 0 0);               /* pure white card */
+  --brand-hero: oklch(0.27 0.05 250);       /* navy hero/footer */
+  --brand-hero-deep: oklch(0.2 0.05 250);   /* deeper navy for hover */
+  --brand-hero-fg: oklch(0.99 0.005 80);    /* cream text on hero */
+  --brand-accent: oklch(0.82 0.16 85);      /* warm yellow */
+}
+
+.vertical-detailing {
+  --brand-bg: oklch(0.17 0.025 290);        /* dark grey-purple section bg */
+  --brand-fg: oklch(0.94 0.005 290);        /* near-white text on dark sections */
+  --brand-card: oklch(0.22 0.03 290);       /* elevated card — slightly lighter dark */
+  --brand-hero: oklch(0.18 0.05 290);       /* deep purple-charcoal hero/footer */
+  --brand-hero-deep: oklch(0.12 0.04 290);  /* near-black for hover */
+  --brand-hero-fg: oklch(0.94 0.005 290);   /* near-white text on hero */
+  --brand-accent: oklch(0.6 0.22 295);      /* electric purple */
 }
 
 @layer base {

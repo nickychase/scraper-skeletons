@@ -30,6 +30,15 @@ export const sheetsNullableNumber = z.preprocess((v) => {
   return Number.isFinite(n) ? n : null;
 }, z.number().nullable());
 
+export const sheetsOptionalNumber = z.preprocess((v) => {
+  if (v === null || v === undefined) return undefined;
+  if (typeof v === "number") return v;
+  const s = String(v).trim();
+  if (s === "") return undefined;
+  const n = Number(s);
+  return Number.isFinite(n) ? n : undefined;
+}, z.number().optional());
+
 export const sheetsTimestamp = z.preprocess((v) => {
   if (v === null || v === undefined) return undefined;
   const s = String(v).trim();

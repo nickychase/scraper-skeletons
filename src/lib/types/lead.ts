@@ -2,6 +2,7 @@ import { z } from "zod";
 import {
   sheetsBool,
   sheetsNullableNumber,
+  sheetsOptionalNumber,
   sheetsOptionalString,
   sheetsString,
   sheetsTimestamp,
@@ -55,6 +56,19 @@ export const leadSchema = z.object({
   status: statusSchema,
   last_status_at: sheetsTimestamp,
   notes: sheetsOptionalString,
+
+  // Polish-wave optional fields (2026-05-18). Sheets columns are optional;
+  // every field falls back gracefully when absent. Mirror in scraper-dashboard
+  // when the corresponding columns are added.
+  owner_name: sheetsOptionalString,
+  years_in_business: sheetsOptionalNumber,
+  license_number: sheetsOptionalString,
+  service_areas: sheetsOptionalString,
+  business_hours: sheetsOptionalString,
+  place_review_snippet_1: sheetsOptionalString,
+  place_review_author_1: sheetsOptionalString,
+  place_review_snippet_2: sheetsOptionalString,
+  place_review_author_2: sheetsOptionalString,
 });
 
 export type Lead = z.infer<typeof leadSchema>;
