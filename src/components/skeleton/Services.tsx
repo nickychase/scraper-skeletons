@@ -16,11 +16,10 @@ export function Services({
             What we do
           </p>
           <h2 className="mt-3 text-4xl font-bold tracking-tight text-plumber-navy sm:text-5xl">
-            Full-service plumbing for {lead.city ?? "your home"}
+            {vertical.servicesHeading(lead)}
           </h2>
           <p className="mt-4 text-lg text-plumber-navy/70">
-            From routine maintenance to emergency repairs — one call, done
-            right.
+            {vertical.servicesSubhead}
           </p>
         </div>
 

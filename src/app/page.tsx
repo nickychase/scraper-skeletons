@@ -14,12 +14,19 @@ export default function Home() {
           .
         </p>
         <p className="text-sm text-zinc-500">
-          Demo:{" "}
+          Demos:{" "}
+          <a
+            href="/ChIJ_SHOOTIST_001"
+            className="underline underline-offset-4 hover:text-zinc-700 dark:hover:text-zinc-300"
+          >
+            The Shootist
+          </a>
+          {" · "}
           <a
             href="/ChIJ_HOT_001"
             className="underline underline-offset-4 hover:text-zinc-700 dark:hover:text-zinc-300"
           >
-            /ChIJ_HOT_001
+            Patel Family Plumbing
           </a>
         </p>
       </div>

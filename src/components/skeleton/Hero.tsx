@@ -41,6 +41,16 @@ export function Hero({
         <p className="mt-6 max-w-2xl text-lg text-plumber-cream/80 sm:text-xl">
           {vertical.heroSubhead(lead)}
         </p>
+        {vertical.heroBannerSrc && (
+          <div className="mt-8 max-w-2xl overflow-hidden rounded-2xl shadow-2xl ring-1 ring-plumber-cream/10">
+            <img
+              src={vertical.heroBannerSrc}
+              alt={lead.business_name}
+              className="w-full object-cover"
+            />
+          </div>
+        )}
+
         <div className="mt-10 flex flex-wrap items-center gap-4">
           <Button className="h-12 bg-plumber-yellow px-6 text-base font-semibold text-plumber-navy hover:bg-plumber-yellow/90">
             {vertical.primaryCtaLabel}

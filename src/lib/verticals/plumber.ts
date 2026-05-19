@@ -30,6 +30,18 @@ export const plumberVertical: VerticalData = {
     { Icon: Heart, label: "Family-Owned & Operated" },
   ],
 
+  servicesHeading: (lead) =>
+    `Full-service plumbing for ${lead.city ?? "your home"}`,
+  servicesSubhead:
+    "From routine maintenance to emergency repairs — one call, done right.",
+
+  contactHeading: "Ready when you are",
+  contactSubhead:
+    "Same-day appointments available. We'll show up on time and quote you straight.",
+  contactFormLabel: "Request a quote",
+  contactFormSubhead:
+    "We'll get back to you within the hour during business hours.",
+
   services: [
     {
       Icon: Droplets,

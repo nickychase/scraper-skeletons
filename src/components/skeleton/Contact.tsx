@@ -1,8 +1,9 @@
 import { MapPin, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Lead } from "@/lib/types/lead";
+import type { VerticalData } from "@/lib/types/vertical";
 
-export function Contact({ lead }: { lead: Lead }) {
+export function Contact({ lead, vertical }: { lead: Lead; vertical: VerticalData }) {
   const telHref = lead.phone
     ? `tel:${lead.phone.replace(/[^\d+]/g, "")}`
     : undefined;
@@ -16,11 +17,10 @@ export function Contact({ lead }: { lead: Lead }) {
               Get in touch
             </p>
             <h2 className="mt-3 text-4xl font-bold tracking-tight text-plumber-navy sm:text-5xl">
-              Ready when you are
+              {vertical.contactHeading}
             </h2>
             <p className="mt-4 text-lg text-plumber-navy/70">
-              Same-day appointments available. We&apos;ll show up on time and
-              quote you straight.
+              {vertical.contactSubhead}
             </p>
 
             <div className="mt-10 space-y-5">
@@ -49,7 +49,7 @@ export function Contact({ lead }: { lead: Lead }) {
                 </span>
                 <span>
                   <span className="block text-sm font-medium uppercase tracking-wider text-plumber-navy/50">
-                    Service area
+                    Visit us
                   </span>
                   <span className="mt-0.5 block text-base font-medium">
                     {lead.address}
@@ -57,14 +57,24 @@ export function Contact({ lead }: { lead: Lead }) {
                 </span>
               </div>
             </div>
+
+            {vertical.storefrontSrc && (
+              <div className="mt-8 overflow-hidden rounded-2xl shadow-lg ring-1 ring-plumber-navy/10">
+                <img
+                  src={vertical.storefrontSrc}
+                  alt={`${lead.business_name} storefront`}
+                  className="w-full object-cover"
+                />
+              </div>
+            )}
           </div>
 
           <div className="rounded-2xl border border-plumber-navy/10 bg-white p-8 shadow-sm">
             <h3 className="text-2xl font-bold text-plumber-navy">
-              Request a quote
+              {vertical.contactFormLabel}
             </h3>
             <p className="mt-2 text-sm text-plumber-navy/60">
-              We&apos;ll get back to you within the hour during business hours.
+              {vertical.contactFormSubhead}
             </p>
             <div className="mt-6 space-y-4">
               <div>

@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import type { Lead } from "@/lib/types/lead";
 
-export type VerticalKey = "plumber";
+export type VerticalKey = "plumber" | "gun-store";
 
 export type ServiceItem = {
   Icon: LucideIcon;
@@ -21,4 +21,12 @@ export type VerticalData = {
   primaryCtaLabel: string;
   trustClaims: TrustClaim[];
   services: ServiceItem[];
+  servicesHeading: (lead: Lead) => string;
+  servicesSubhead: string;
+  contactHeading: string;
+  contactSubhead: string;
+  contactFormLabel: string;
+  contactFormSubhead: string;
+  heroBannerSrc?: string;
+  storefrontSrc?: string;
 };
