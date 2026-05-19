@@ -2,6 +2,28 @@
 
 Bugs and outstanding tasks for `scraper-skeletons`. Newest items go to the top of each section.
 
+## Target market & design principles
+
+**Who we're targeting**: small local service-trade business owners — plumbing, electrical, HVAC, landscaping, cleaners, roofers, and similar small-business services. Local to the user's area. They typically have no website, or a 10+-year-old one that hurts more than helps.
+
+**Who the preview is FOR**: the business *owner*, not their customers. The owner is the one opening the outreach email and reacting to the preview. They need to think "yes, that's mine, I want that." Every section choice, copy decision, and palette call is judged against the owner's reaction, not a hypothetical customer's.
+
+**Methodology**: when scoping a new section or planning a new vertical, ask *"thinking like one of these business owners, what would you want to see on your website?"* Run this exercise per vertical — plumbers and salons answer differently, and the section list adapts.
+
+**What trade owners want, in priority order** (surfaced 2026-05-18; codified in `memory/target_market.md`):
+
+1. **Legitimacy signals** — license #, insurance, years in business, family-owned tag, association badges (PHCC / NECA / ACCA / BBB).
+2. **Phone number prominence** — sticky, tap-to-call, mobile-first. Separate emergency line for trades.
+3. **Real review quotes** — not just count. Schema gap; biggest perception-of-realism unlock.
+4. **Photos of their work** — truck with logo, uniformed team, jobsites, before/after. Stock photos make it feel less theirs.
+5. **Their story / About** — owner name, family / veteran / multi-generation. Makes it feel like *theirs*.
+6. **Service area** — cities served. Per-vertical optional (trades yes, salons no).
+7. **Hours of operation** — regular + emergency where applicable. Per-vertical.
+8. **Conversion paths beyond the phone** — real form, request-a-quote, optional booking.
+
+The 5 new sections currently in the "Polish & enhancement" queue are the direct output of this exercise. The modularity refactor (`sections: SectionKey[]` on `VerticalData`) exists *because* not every vertical wants every section — salons skip service-area and emergency-hours, restaurants skip service-area and add menu. Plumber is just the first vertical the framework supports.
+
+
 ## Bugs
 
 - [ ] `src/app/page.tsx` (homepage) still has dark-mode classes and references `/[place_id]` — should be cleaned up or rewritten to match the trade-trust aesthetic. Cosmetic only; the live route is `/[slug]`.
