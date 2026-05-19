@@ -13,16 +13,16 @@ export function Gallery({
   if (!gallery || gallery.items.length === 0) return null;
 
   return (
-    <section className="bg-white">
+    <section className="bg-brand-card">
       <div className="mx-auto max-w-6xl px-6 py-24">
         <div className="max-w-2xl">
-          <p className="text-sm font-medium uppercase tracking-widest text-plumber-yellow">
+          <p className="text-sm font-medium uppercase tracking-widest text-brand-accent">
             {gallery.eyebrow}
           </p>
-          <h2 className="mt-3 text-4xl font-bold tracking-tight text-plumber-navy sm:text-5xl">
+          <h2 className="mt-3 text-4xl font-bold tracking-tight text-brand-fg sm:text-5xl">
             {gallery.heading(lead)}
           </h2>
-          <p className="mt-4 text-lg text-plumber-navy/70">
+          <p className="mt-4 text-lg text-brand-fg/70">
             {gallery.blurb(lead)}
           </p>
         </div>

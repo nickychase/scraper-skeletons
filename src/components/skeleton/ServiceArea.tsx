@@ -25,16 +25,16 @@ export function ServiceArea({
   if (cities.length === 0) return null;
 
   return (
-    <section className="border-y border-plumber-navy/10 bg-plumber-cream">
+    <section className="border-y border-brand-fg/10 bg-brand-bg">
       <div className="mx-auto max-w-6xl px-6 py-24">
         <div className="max-w-2xl">
-          <p className="text-sm font-medium uppercase tracking-widest text-plumber-yellow">
+          <p className="text-sm font-medium uppercase tracking-widest text-brand-accent">
             {serviceArea.eyebrow}
           </p>
-          <h2 className="mt-3 text-4xl font-bold tracking-tight text-plumber-navy sm:text-5xl">
+          <h2 className="mt-3 text-4xl font-bold tracking-tight text-brand-fg sm:text-5xl">
             {serviceArea.heading(lead)}
           </h2>
-          <p className="mt-4 text-lg text-plumber-navy/70">
+          <p className="mt-4 text-lg text-brand-fg/70">
             {serviceArea.blurb(lead)}
           </p>
         </div>
@@ -43,9 +43,9 @@ export function ServiceArea({
           {cities.map((city) => (
             <li
               key={city}
-              className="inline-flex items-center gap-2 rounded-full border border-plumber-navy/15 bg-white px-4 py-2 text-sm font-semibold text-plumber-navy"
+              className="inline-flex items-center gap-2 rounded-full border border-brand-fg/15 bg-brand-card px-4 py-2 text-sm font-semibold text-brand-fg"
             >
-              <MapPin className="size-4 text-plumber-yellow" />
+              <MapPin className="size-4 text-brand-accent" />
               {city}
             </li>
           ))}

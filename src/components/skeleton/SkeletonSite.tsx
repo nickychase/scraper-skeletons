@@ -30,7 +30,7 @@ export function SkeletonSite({
   vertical: VerticalData;
 }) {
   return (
-    <div className="bg-plumber-cream text-plumber-navy">
+    <div className={`vertical-${vertical.key} bg-brand-bg text-brand-fg`}>
       <PhoneBar lead={lead} />
       <main>
         {vertical.sections.map((key) => {
@@ -38,7 +38,7 @@ export function SkeletonSite({
           return <Section key={key} lead={lead} vertical={vertical} />;
         })}
       </main>
-      <footer className="border-t border-plumber-navy/10 bg-plumber-navy py-8 text-center text-sm text-plumber-cream/60">
+      <footer className="border-t border-brand-fg/10 bg-brand-hero py-8 text-center text-sm text-brand-hero-fg/60">
         © {new Date().getFullYear()} {lead.business_name}. All rights reserved.
       </footer>
     </div>

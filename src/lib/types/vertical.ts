@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import type { Lead } from "@/lib/types/lead";
 
-export type VerticalKey = "plumber";
+export type VerticalKey = "plumber" | "detailing";
 
 export type SectionKey =
   | "hero"
@@ -68,11 +68,17 @@ export type GalleryData = {
   items: GalleryItem[];
 };
 
+export type HeroImage = {
+  url: string;
+  alt: string;
+};
+
 export type VerticalData = {
   key: VerticalKey;
   sections: SectionKey[];
   heroEyebrow: (lead: Lead) => string;
   heroSubhead: (lead: Lead) => string;
+  heroImage?: HeroImage;
   primaryCtaLabel: string;
   trustClaims: TrustClaim[];
   services: ServiceItem[];
