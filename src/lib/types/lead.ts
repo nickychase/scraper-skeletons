@@ -1,5 +1,11 @@
 import { z } from "zod";
 import {
+  galleryItemSchema,
+  galleryVariantSchema,
+  heroVariantSchema,
+  servicesVariantSchema,
+} from "./sections";
+import {
   sheetsBool,
   sheetsNullableNumber,
   sheetsOptionalNumber,
@@ -69,6 +75,17 @@ export const leadSchema = z.object({
   place_review_author_1: sheetsOptionalString,
   place_review_snippet_2: sheetsOptionalString,
   place_review_author_2: sheetsOptionalString,
+
+  // Per-prospect skeleton fields (2026-05-19). Populated locally by the
+  // `generate-skeleton` skill — not synced to the Sheet (localhost-only pivot).
+  // Each is an override; absent → vertical default applies.
+  palette_variant: sheetsOptionalString, // e.g. "warm", "cool", "modern"
+  hero_image_url: sheetsOptionalString,
+  hero_image_alt: sheetsOptionalString,
+  gallery_items: z.array(galleryItemSchema).optional(),
+  hero_variant: heroVariantSchema.optional(),
+  services_variant: servicesVariantSchema.optional(),
+  gallery_variant: galleryVariantSchema.optional(),
 });
 
 export type Lead = z.infer<typeof leadSchema>;

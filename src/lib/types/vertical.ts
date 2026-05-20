@@ -1,5 +1,8 @@
 import type { LucideIcon } from "lucide-react";
 import type { Lead } from "@/lib/types/lead";
+import type { GalleryItem } from "@/lib/types/sections";
+
+export type { GalleryItem };
 
 export type VerticalKey = "plumber" | "detailing";
 
@@ -50,15 +53,6 @@ export type HoursRow = {
 export type HoursData = {
   schedule: HoursRow[];
   emergencyNote?: string;
-};
-
-export type GalleryItem = {
-  id: number;
-  type: "image" | "video";
-  title: string;
-  desc: string;
-  url: string;
-  span: string;
 };
 
 export type GalleryData = {
