@@ -1,0 +1,29 @@
+# CODEOWNERS
+# Auto-requests review from @nickychase on PRs touching shared surface.
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-configuration/about-code-owners
+
+# Project-wide fallback — anything not matched below
+*                                       @nickychase
+
+# Shared section renderer and dispatcher — changes here affect every vertical
+/src/components/skeleton/SkeletonSite.tsx   @nickychase
+/src/lib/verticals/index.ts                 @nickychase
+
+# Type contracts and schema
+/src/lib/types/                             @nickychase
+/src/lib/sheets/                            @nickychase
+
+# Theming foundation
+/src/app/globals.css                        @nickychase
+
+# Agent rules and conventions — single source of truth
+/.claude/rules/                             @nickychase
+/.claude/agents/                            @nickychase
+/.claude/skills/                            @nickychase
+/AGENTS.md                                  @nickychase
+/CLAUDE.md                                  @nickychase
+
+# Workflow infrastructure
+/.github/                                   @nickychase
+/CODEOWNERS                                 @nickychase
+/docs/                                      @nickychase

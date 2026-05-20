@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <main className="flex-1 w-full">
@@ -15,12 +17,12 @@ export default function Home() {
         </p>
         <p className="text-sm text-zinc-500">
           Demo:{" "}
-          <a
+          <Link
             href="/ChIJ_HOT_001"
             className="underline underline-offset-4 hover:text-zinc-700 dark:hover:text-zinc-300"
           >
             /ChIJ_HOT_001
-          </a>
+          </Link>
         </p>
       </div>
     </main>

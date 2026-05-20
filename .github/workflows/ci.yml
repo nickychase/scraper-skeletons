@@ -1,0 +1,40 @@
+name: ci
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  ci:
+    name: ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Build
+        run: npm run build
+        env:
+          # Build must succeed without Sheets credentials — the app falls back
+          # to src/fixtures/leads.sample.ts when these are unset. If a build-time
+          # path ever requires real creds, surface that and reconsider.
+          GOOGLE_SERVICE_ACCOUNT_EMAIL: ""
+          GOOGLE_PRIVATE_KEY: ""
+          GOOGLE_SHEET_ID: ""

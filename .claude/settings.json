@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(npm ci)",
+      "Bash(npm install)",
+      "Bash(npm run lint)",
+      "Bash(npm run build)",
+      "Bash(npm run dev)",
+      "Bash(npm run start)",
+      "Bash(npx tsc --noEmit)",
+      "Bash(npx tsc -p *)",
+      "Bash(npx eslint *)",
+      "Bash(git status)",
+      "Bash(git status *)",
+      "Bash(git diff)",
+      "Bash(git diff *)",
+      "Bash(git log)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git branch)",
+      "Bash(git branch *)",
+      "Bash(git remote -v)",
+      "Bash(gh pr view *)",
+      "Bash(gh pr list *)",
+      "Bash(gh pr diff *)",
+      "Bash(gh pr checks *)",
+      "Bash(gh run list *)",
+      "Bash(gh run view *)",
+      "Bash(gh api repos/* --jq *)",
+      "Bash(gh repo view *)",
+      "Bash(ls)",
+      "Bash(ls *)",
+      "Bash(find . *)",
+      "Bash(cat package.json)",
+      "WebFetch(domain:lucide.dev)",
+      "WebFetch(domain:ui.shadcn.com)",
+      "WebFetch(domain:nextjs.org)",
+      "WebFetch(domain:tailwindcss.com)"
+    ]
+  }
+}
