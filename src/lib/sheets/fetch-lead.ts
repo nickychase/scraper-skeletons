@@ -1,19 +1,23 @@
 import { SAMPLE_LEADS } from "@/fixtures/leads.sample";
+import { loadLocalProspects } from "@/lib/local-prospects/store";
 import { leadSchema, type Lead } from "@/lib/types/lead";
 import { getSheetId, getSheetsClient, hasSheetsConfig } from "./client";
 
-export type FetchSource = "sheets" | "fixtures";
+export type FetchSource = "sheets" | "fixtures" | "local";
 
 export type LeadLookup = {
   lead: Lead | null;
   source: FetchSource;
 };
 
-// Reads the Leads tab from the configured sheet (or fixtures, when env is
-// unset) and returns the row whose place_id matches the given slug.
-// Parse failures on other rows are silently skipped — this is a public page
-// that should never break because some unrelated row had a malformed cell.
+// Locally-generated prospect leads (written by the generate-skeleton skill)
+// take precedence over both Sheets and the sample fixtures. This way a fresh
+// research-driven lead always renders the populated version, not whatever
+// stale row might exist with the same place_id.
 export async function fetchLeadBySlug(slug: string): Promise<LeadLookup> {
+  const local = (await loadLocalProspects()).find((l) => l.place_id === slug);
+  if (local) return { lead: local, source: "local" };
+
   if (!hasSheetsConfig()) {
     return {
       lead: SAMPLE_LEADS.find((l) => l.place_id === slug) ?? null,
@@ -60,8 +64,12 @@ export async function fetchLeadBySlug(slug: string): Promise<LeadLookup> {
 }
 
 export async function fetchAllLeadSlugs(): Promise<string[]> {
+  const localSlugs = (await loadLocalProspects()).map((l) => l.place_id);
+
   if (!hasSheetsConfig()) {
-    return SAMPLE_LEADS.map((l) => l.place_id);
+    return Array.from(
+      new Set([...localSlugs, ...SAMPLE_LEADS.map((l) => l.place_id)]),
+    );
   }
 
   const sheets = getSheetsClient();
@@ -80,10 +88,10 @@ export async function fetchAllLeadSlugs(): Promise<string[]> {
   const placeIdCol = headerRow.indexOf("place_id");
   if (placeIdCol === -1) return [];
 
-  const slugs: string[] = [];
+  const slugs: string[] = [...localSlugs];
   for (let i = 1; i < allRows.length; i++) {
     const slug = String(allRows[i][placeIdCol] ?? "").trim();
     if (slug) slugs.push(slug);
   }
-  return slugs;
+  return Array.from(new Set(slugs));
 }

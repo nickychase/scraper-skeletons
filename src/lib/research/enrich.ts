@@ -10,7 +10,8 @@
 // Set `GOOGLE_PLACES_API_KEY` in `.env.local` for real research; without it,
 // the function returns a minimal lead so the skill can still continue.
 
-import type { Lead } from "@/lib/types/lead";
+import { saveLocalProspect } from "@/lib/local-prospects/store";
+import { leadSchema, type Lead } from "@/lib/types/lead";
 import type { GalleryItem } from "@/lib/types/sections";
 import {
   getPlaceDetails,
@@ -175,15 +176,42 @@ function minimalLead(businessName: string, city?: string): Partial<Lead> {
 }
 
 // CLI entrypoint.
+//   npx tsx src/lib/research/enrich.ts "Business Name" "City"
+//   npx tsx src/lib/research/enrich.ts "Business Name" "City" --save
+//
+// With --save: validates the enriched lead, writes to prospects.local.json,
+// and prints the localhost URL on stderr alongside the JSON on stdout.
 async function main() {
-  const [businessName, city] = process.argv.slice(2);
+  const args = process.argv.slice(2);
+  const save = args.includes("--save");
+  const positional = args.filter((a) => !a.startsWith("--"));
+  const [businessName, city] = positional;
+
   if (!businessName) {
     console.error(
-      'Usage: tsx src/lib/research/enrich.ts "Business Name" "City (optional)"',
+      'Usage: tsx src/lib/research/enrich.ts "Business Name" "City (optional)" [--save]',
     );
     process.exit(1);
   }
+
   const result = await enrichLead(businessName, city);
+
+  if (save) {
+    const parsed = leadSchema.safeParse(result.lead);
+    if (!parsed.success) {
+      console.error(
+        "Enriched lead failed schema validation — refusing to save.",
+      );
+      console.error(JSON.stringify(parsed.error.issues, null, 2));
+      console.log(JSON.stringify(result, null, 2));
+      process.exit(2);
+    }
+    await saveLocalProspect(parsed.data);
+    console.error(
+      `Saved to src/fixtures/prospects.local.json — open http://localhost:3000/${parsed.data.place_id}`,
+    );
+  }
+
   console.log(JSON.stringify(result, null, 2));
 }
 
