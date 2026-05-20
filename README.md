@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# scraper-skeletons
 
-## Getting Started
+Per-prospect marketing preview sites for the [scraper-dashboard](https://github.com/nickychase/scraper-dashboard) outreach flow. Each lead in the dashboard's Google Sheet gets a polished-looking preview site at `/<place_id>` — the outreach pitch is "we built YOU a preview."
 
-First, run the development server:
+The audience is the **small local service-trade owner** (plumbing, electrical, HVAC, detailing, landscaping, etc.) opening the link from a Gmail outreach, not their customers. Layouts are designed from the owner's perspective.
+
+## Stack
+
+- Next 16 (App Router, `src/` dir) + React 19 + TypeScript
+- Tailwind v4 + shadcn/ui (`base-nova`, on `@base-ui/react` — not Radix)
+- `framer-motion` for the gallery
+- `googleapis` for the shared Leads sheet
+- `zod` for schema validation
+
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local   # fill in Google service-account creds
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). With no env vars set, the app falls back to `src/fixtures/leads.sample.ts` (one plumber lead) so you can develop offline.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Routes:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/` — landing
+- `/[slug]` — per-prospect preview, slug is the lead's `place_id`
 
-## Learn More
+## How it works
 
-To learn more about Next.js, take a look at the following resources:
+One universal `<SkeletonSite>` component renders a vertical-specific data bundle. Section composition is data-driven (`VerticalData.sections: SectionKey[]`), and theming uses a 7-role semantic-token model (`--brand-bg/fg/card/hero/hero-deep/hero-fg/accent`) defined per vertical in `globals.css`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Vertical dispatch lives in `src/components/skeleton/verticals/index.ts` and is a keyword sniff on `lead.query` (e.g. contains `"detail"` → detailing).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Verticals
 
-## Deploy on Vercel
+| Key | Status | Example |
+| --- | --- | --- |
+| `plumber` | live | Patel Family Plumbing (`/ChIJ_HOT_001`) |
+| `detailing` | live | Riverside Detailing (`/ChIJ_DETAIL_001`) |
+| `shootist` | in progress (`shootist_skel` branch) | — |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Adding a vertical = new entry in `verticals/`, new `.vertical-<key>` class in `globals.css`, and a keyword rule in the dispatcher.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Layout
+
+```
+src/
+  app/
+    [slug]/page.tsx        # per-prospect preview
+    api/                   # internal endpoints
+  components/
+    skeleton/              # universal site + section components
+    blocks/                # forked 3rd-party blocks (e.g. bento gallery)
+    ui/                    # shadcn primitives
+  fixtures/leads.sample.ts # offline dev fallback
+  lib/                     # sheets client, helpers
+```
+
+## Related
+
+- [`scraper-dashboard`](https://github.com/nickychase/scraper-dashboard) — sibling repo that owns the Leads sheet and outreach. Shares the lead schema and Sheets client (duplicated by hand, not via monorepo).
+- `BACKLOG.md` — current backlog, including the dashboard schema mirror that's still owed.
+- `AGENTS.md` / `CLAUDE.md` — notes for agents working in this repo.
+
+## Workflow
+
+Default branch is `main`; day-to-day work happens on `nickchase-branch`. Push feature branches and open PRs against `main`.
