@@ -64,6 +64,12 @@ src/
 - `BACKLOG.md` — current backlog, including the dashboard schema mirror that's still owed.
 - `AGENTS.md` / `CLAUDE.md` — notes for agents working in this repo.
 
-## Workflow
+## Contributing
 
-Default branch is `main`; day-to-day work happens on `nickchase-branch`. Push feature branches and open PRs against `main`.
+Each contributor works on their own feature branch and opens a PR to `main`. CI (lint + typecheck + build) must pass before merge. See [`docs/adding-a-vertical.md`](docs/adding-a-vertical.md) for the walkthrough on adding a new vertical, and [`AGENTS.md`](AGENTS.md) (which points at [`.claude/rules/`](.claude/rules/)) for the conventions Claude Code sessions should follow.
+
+Active branches:
+
+- `main` — protected, requires passing CI
+- `nickchase-branch` — Nick's working branch (main-line waves)
+- `shootist_skel` — Joshua's working branch (shootist vertical, in progress)
