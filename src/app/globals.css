@@ -164,6 +164,57 @@
   --brand-accent: oklch(0.6 0.22 295);      /* electric purple */
 }
 
+/* --- Palette variants ---
+   Applied as `vertical-<key> vertical-<key>-<variant>` so the variant
+   overrides the base. Skeleton can render with no variant (default base)
+   or with one to give visually distinct sibling sites within a vertical.
+   When adding a variant: define all 7 brand tokens. Missing tokens cascade
+   the base palette, which is silent and usually wrong. */
+
+/* Cooler, more clinical plumber palette — modern HVAC/plumbing crossover */
+.vertical-plumber-cool {
+  --brand-bg: oklch(0.97 0.015 240);
+  --brand-fg: oklch(0.28 0.04 240);
+  --brand-card: oklch(1 0 0);
+  --brand-hero: oklch(0.28 0.04 240);
+  --brand-hero-deep: oklch(0.18 0.04 240);
+  --brand-hero-fg: oklch(0.97 0.015 240);
+  --brand-accent: oklch(0.72 0.13 195);     /* teal */
+}
+
+/* Minimalist plumber palette — startup-feeling, sharp contrast */
+.vertical-plumber-modern {
+  --brand-bg: oklch(0.98 0 0);
+  --brand-fg: oklch(0.2 0 0);
+  --brand-card: oklch(1 0 0);
+  --brand-hero: oklch(0.15 0 0);            /* near black */
+  --brand-hero-deep: oklch(0.08 0 0);
+  --brand-hero-fg: oklch(0.98 0 0);
+  --brand-accent: oklch(0.65 0.22 145);     /* vivid green */
+}
+
+/* Premium black/gold detailing palette — high-end coachwork energy */
+.vertical-detailing-luxe {
+  --brand-bg: oklch(0.15 0.02 60);          /* espresso dark warm */
+  --brand-fg: oklch(0.85 0.06 80);          /* pale gold */
+  --brand-card: oklch(0.2 0.025 55);
+  --brand-hero: oklch(0.1 0.02 60);
+  --brand-hero-deep: oklch(0.05 0.01 60);
+  --brand-hero-fg: oklch(0.85 0.06 80);
+  --brand-accent: oklch(0.75 0.11 80);      /* champagne */
+}
+
+/* Monochrome + accent-red detailing palette — performance/track-day shop */
+.vertical-detailing-stealth {
+  --brand-bg: oklch(0.13 0 0);              /* near black */
+  --brand-fg: oklch(0.85 0 0);              /* light gray */
+  --brand-card: oklch(0.18 0 0);
+  --brand-hero: oklch(0.07 0 0);
+  --brand-hero-deep: oklch(0 0 0);
+  --brand-hero-fg: oklch(0.95 0 0);
+  --brand-accent: oklch(0.6 0.22 25);       /* red */
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

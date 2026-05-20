@@ -39,6 +39,9 @@ yarn-error.log*
 # claude code — per-developer overrides (.claude/settings.json itself is committed)
 .claude/settings.local.json
 
+# local prospects — written by the generate-skeleton skill, never committed
+src/fixtures/prospects.local.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

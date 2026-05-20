@@ -29,8 +29,14 @@ export function SkeletonSite({
   lead: Lead;
   vertical: VerticalData;
 }) {
+  const variantClass = lead.palette_variant
+    ? `vertical-${vertical.key}-${lead.palette_variant}`
+    : "";
+
   return (
-    <div className={`vertical-${vertical.key} bg-brand-bg text-brand-fg`}>
+    <div
+      className={`vertical-${vertical.key} ${variantClass} bg-brand-bg text-brand-fg`.trim()}
+    >
       <PhoneBar lead={lead} />
       <main>
         {vertical.sections.map((key) => {
